@@ -2,6 +2,7 @@ import { Model, model, Schema } from "mongoose";
 import { IAddress, IUser, UserInstanceMethod, UserStaticMethod } from "../interfaces/user.interface";
 import validator from 'validator';
 import bcrypt from "bcryptjs";
+import { Note } from "./notes.model";
 
 // Sub Schema
 const addressSchema = new Schema<IAddress>(
@@ -68,7 +69,9 @@ const userSchema = new Schema<IUser, UserStaticMethod, UserInstanceMethod>(
       },
       {
             versionKey: false,
-            timestamps: true
+            timestamps: true,
+            toJSON: { virtuals: true },
+            toObject: { virtuals: true }
       })
 
 userSchema.method("hashPassword", async function hashPassword(plainPassword: string) {
@@ -79,6 +82,40 @@ userSchema.method("hashPassword", async function hashPassword(plainPassword: str
 userSchema.static("hashPassword", async function hashPassword(plainPassword: string) {
       const password = await bcrypt.hash(plainPassword, 10)
       return password
+})
+
+//** Pre Hooks */
+// Document middleware
+userSchema.pre("save", async function (next) {
+      console.log("Inside pre save hook: ", this)
+      this.password = await bcrypt.hash(this.password, 10)
+      next()
+})
+// Query middleware
+userSchema.pre("find", async function (next) {
+      console.log("Inside pre find hook")
+      next()
+})
+
+//** Post Hooks */
+// Document middleware
+userSchema.post("save", async function (doc, next) {
+      console.log("Inside post save hook: ", doc)
+      console.log("%s has been saved", doc._id)
+      next()
+})
+// Query middleware
+userSchema.post("findOneAndDelete", async function (doc, next) {
+      if (doc) {
+            console.log("deleted user:", doc)
+            await Note.deleteMany({ user: doc._id })
+      }
+      next()
+})
+
+// mongoose virtual
+userSchema.virtual("fullName").get(function () {
+      return `${this.firstName} ${this.lastName}`
 })
 
 // model
