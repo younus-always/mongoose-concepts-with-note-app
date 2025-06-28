@@ -46,7 +46,28 @@ userRoute.post('/create-user', async (req: Request, res: Response) => {
 })
 
 userRoute.get('/', async (req: Request, res: Response) => {
-      const users = await User.find()
+      //** Filtering */
+      // const userEmail = req.query.email
+      // let users: any[] = []
+      // if (userEmail) {
+      //       users = await User.find({ email: userEmail })
+      // } else {
+      //       users = await User.find()
+      // }
+
+      // ** Sorting */
+      // const users = await User.find().sort({ age: "asc" })
+      // const users = await User.find().sort({age: "ascending"})
+      // const users = await User.find().sort({age: "desc"})
+      // const users = await User.find().sort({ age: "descending" })
+      // const users = await User.find().sort({ age: 1 })
+      // const users = await User.find().sort({ age: -1 })
+
+      //** Skipping */
+      // const users = await User.find().skip(4)
+
+      //** Limiting */
+      const users = await User.find().limit(7)
 
       res.status(200).json({
             success: true,
