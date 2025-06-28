@@ -6,16 +6,16 @@ A backend note-taking application built using **Node.js**, **Express**, and **Mo
 
 ## 📑 Table of Contents
 
-- [Introduction](#introduction)
-- [Features](#features)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Configuration](#configuration)
-- [Scripts](#scripts)
-- [Dependencies](#dependencies)
-- [Development](#development)
-- [Troubleshooting](#troubleshooting)
-- [License](#license)
+- [Introduction](#-introduction)
+- [Features](#-features)
+- [Installation](#%EF%B8%8F-installation)
+- [Usage](#-usage)
+- [Configuration](#-configuration)
+- [Scripts](#-scripts)
+- [Dependencies](#-dependencies)
+- [Development](#-development)
+- [Troubleshooting](#-troubleshooting)
+- [License](#-license)
 
 ---
 
