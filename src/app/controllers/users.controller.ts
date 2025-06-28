@@ -19,6 +19,15 @@ userRoute.post('/create-user', async (req: Request, res: Response) => {
             //** Zod schema validation
             // const body = await CreateUserZodSchema.parseAsync(req.body)
             const { body } = req
+            //** Built in and custom intance methods
+            // const user = new User(body)
+            // const password = await user.hashPassword(body.password)
+            // user.password = password
+            // await user.save()
+
+            //** Built in and custom static methods
+            const password = await User.hashPassword(body.password)
+            body.password = password
             const user = await User.create(body)
 
             res.status(201).json({
